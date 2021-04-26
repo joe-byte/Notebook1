@@ -9,6 +9,7 @@ public class NotebookUI extends javax.swing.JFrame {
     private static final int WIDTH_ = 900;
     private static final int HEIGHT_ = 600;
     private final String TITLE = "NoteBook";
+    boolean elsosor;
     Controller controller;
     
     public NotebookUI() {
@@ -27,7 +28,7 @@ public class NotebookUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        tArea = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         mnNew = new javax.swing.JMenuItem();
@@ -65,9 +66,9 @@ public class NotebookUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        tArea.setColumns(20);
+        tArea.setRows(5);
+        jScrollPane1.setViewportView(tArea);
 
         jMenuBar1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
@@ -76,15 +77,15 @@ public class NotebookUI extends javax.swing.JFrame {
 
         mnNew.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnNew.setText("New");
+        mnNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnNewActionPerformed(evt);
+            }
+        });
         jMenu1.add(mnNew);
 
         mnOpen.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnOpen.setText("Open");
-        mnOpen.addContainerListener(new java.awt.event.ContainerAdapter() {
-            public void componentRemoved(java.awt.event.ContainerEvent evt) {
-                mnOpenComponentRemoved(evt);
-            }
-        });
         mnOpen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnOpenActionPerformed(evt);
@@ -94,14 +95,29 @@ public class NotebookUI extends javax.swing.JFrame {
 
         mnSave.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnSave.setText("Save");
+        mnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnSaveActionPerformed(evt);
+            }
+        });
         jMenu1.add(mnSave);
 
         mnSave_as.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnSave_as.setText("Save as");
+        mnSave_as.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnSave_asActionPerformed(evt);
+            }
+        });
         jMenu1.add(mnSave_as);
 
         mnExit.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnExit.setText("Exit");
+        mnExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnExitActionPerformed(evt);
+            }
+        });
         jMenu1.add(mnExit);
 
         jMenuBar1.add(jMenu1);
@@ -241,16 +257,31 @@ public class NotebookUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mnOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnOpenActionPerformed
-        // TODO add your handling code here:
+        elsosor = true;
+        controller.openFile();
     }//GEN-LAST:event_mnOpenActionPerformed
-
-    private void mnOpenComponentRemoved(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_mnOpenComponentRemoved
-        // TODO add your handling code here:
-    }//GEN-LAST:event_mnOpenComponentRemoved
 
     private void mnPasteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnPasteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_mnPasteActionPerformed
+
+    private void mnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnNewActionPerformed
+        this.del();
+        this.setTitle("New");
+        controller.newFile();
+    }//GEN-LAST:event_mnNewActionPerformed
+
+    private void mnSave_asActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnSave_asActionPerformed
+        controller.saveAsFile();
+    }//GEN-LAST:event_mnSave_asActionPerformed
+
+    private void mnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnExitActionPerformed
+        controller.exitFile();
+    }//GEN-LAST:event_mnExitActionPerformed
+
+    private void mnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnSaveActionPerformed
+        controller.saveFile();
+    }//GEN-LAST:event_mnSaveActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -294,7 +325,6 @@ public class NotebookUI extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JMenuItem mnArial;
     private javax.swing.JMenuItem mnBlack;
     private javax.swing.JMenuItem mnBlue;
@@ -321,11 +351,31 @@ public class NotebookUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnTimesRoman;
     private javax.swing.JMenuItem mnUndo;
     private javax.swing.JMenuItem mnWhite;
+    private javax.swing.JTextArea tArea;
     // End of variables declaration//GEN-END:variables
 
     private void start(){
         setVisible(true);
         controller = new Controller(this);
-        
+    }
+    
+    public void del(){
+        this.tArea.setText("");
+    }
+    
+    public  void cimkeIr(String cimke){
+        this.setTitle(cimke);
+    }
+    
+    public void sortIr(String sor){
+        if (!elsosor){
+            tArea.append("\n");
+        }
+        tArea.append(sor);
+        elsosor = false;
+    }
+    
+    public String olvas(){
+        return tArea.getText();
     }
 }
