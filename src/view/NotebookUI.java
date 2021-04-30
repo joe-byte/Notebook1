@@ -2,6 +2,8 @@
 package view;
 
 import control.Controller;
+import java.awt.Color;
+import java.awt.Font;
 
 
 public class NotebookUI extends javax.swing.JFrame {
@@ -43,7 +45,7 @@ public class NotebookUI extends javax.swing.JFrame {
         mnCopy = new javax.swing.JMenuItem();
         mnPaste = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        mnWordWrap = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         mnS8 = new javax.swing.JMenuItem();
         mnS12 = new javax.swing.JMenuItem();
@@ -155,64 +157,129 @@ public class NotebookUI extends javax.swing.JFrame {
         jMenu4.setText("Format");
         jMenu4.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
-        jMenuItem3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jMenuItem3.setText("Word Wrap: On");
-        jMenu4.add(jMenuItem3);
+        mnWordWrap.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        mnWordWrap.setText("Word Wrap: Ott");
+        mnWordWrap.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnWordWrapActionPerformed(evt);
+            }
+        });
+        jMenu4.add(mnWordWrap);
 
-        jMenu5.setText("Font");
+        jMenu5.setText("Font Size");
         jMenu5.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         mnS8.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnS8.setText("8");
+        mnS8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnS8ActionPerformed(evt);
+            }
+        });
         jMenu5.add(mnS8);
 
         mnS12.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnS12.setText("12");
+        mnS12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnS12ActionPerformed(evt);
+            }
+        });
         jMenu5.add(mnS12);
 
         mnS16.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnS16.setText("16");
+        mnS16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnS16ActionPerformed(evt);
+            }
+        });
         jMenu5.add(mnS16);
 
         mnS20.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnS20.setText("20");
+        mnS20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnS20ActionPerformed(evt);
+            }
+        });
         jMenu5.add(mnS20);
 
         mnS24.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnS24.setText("24");
+        mnS24.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnS24ActionPerformed(evt);
+            }
+        });
         jMenu5.add(mnS24);
 
         mnS28.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnS28.setText("28");
+        mnS28.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnS28ActionPerformed(evt);
+            }
+        });
         jMenu5.add(mnS28);
 
         jMenu4.add(jMenu5);
 
-        jMenu7.setText("Font Size");
+        jMenu7.setText("Font ");
         jMenu7.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
         mnArial.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnArial.setText("Arial");
+        mnArial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnArialActionPerformed(evt);
+            }
+        });
         jMenu7.add(mnArial);
 
         mnComic_San_MS.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        mnComic_San_MS.setText("Comic San MS");
+        mnComic_San_MS.setText("Comic Sans MS");
+        mnComic_San_MS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnComic_San_MSActionPerformed(evt);
+            }
+        });
         jMenu7.add(mnComic_San_MS);
 
         mnDialog.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnDialog.setText("Dialog");
+        mnDialog.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnDialogActionPerformed(evt);
+            }
+        });
         jMenu7.add(mnDialog);
 
         mnHelvetica.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnHelvetica.setText("Helvetica");
+        mnHelvetica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnHelveticaActionPerformed(evt);
+            }
+        });
         jMenu7.add(mnHelvetica);
 
         mnMSGothic.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnMSGothic.setText("MS Gothic");
+        mnMSGothic.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnMSGothicActionPerformed(evt);
+            }
+        });
         jMenu7.add(mnMSGothic);
 
         mnTimesRoman.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        mnTimesRoman.setText("TimesRoman ");
+        mnTimesRoman.setText("Times New Roman ");
+        mnTimesRoman.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnTimesRomanActionPerformed(evt);
+            }
+        });
         jMenu7.add(mnTimesRoman);
 
         jMenu4.add(jMenu7);
@@ -224,18 +291,38 @@ public class NotebookUI extends javax.swing.JFrame {
 
         mnWhite.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnWhite.setText("White");
+        mnWhite.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnWhiteActionPerformed(evt);
+            }
+        });
         jMenu6.add(mnWhite);
 
         mnBlack.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnBlack.setText("Black");
+        mnBlack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnBlackActionPerformed(evt);
+            }
+        });
         jMenu6.add(mnBlack);
 
         mnBlue.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnBlue.setText("Blue");
+        mnBlue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnBlueActionPerformed(evt);
+            }
+        });
         jMenu6.add(mnBlue);
 
         mnRed.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnRed.setText("Red");
+        mnRed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnRedActionPerformed(evt);
+            }
+        });
         jMenu6.add(mnRed);
 
         jMenuBar1.add(jMenu6);
@@ -283,6 +370,74 @@ public class NotebookUI extends javax.swing.JFrame {
         controller.saveFile();
     }//GEN-LAST:event_mnSaveActionPerformed
 
+    private void mnWordWrapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnWordWrapActionPerformed
+        controller.wrapFormat();
+    }//GEN-LAST:event_mnWordWrapActionPerformed
+
+    private void mnS8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnS8ActionPerformed
+        controller.generateFont(8);
+    }//GEN-LAST:event_mnS8ActionPerformed
+
+    private void mnComic_San_MSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnComic_San_MSActionPerformed
+        controller.setFont(Controller.FONTNAME.COMIC);
+    }//GEN-LAST:event_mnComic_San_MSActionPerformed
+
+    private void mnArialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnArialActionPerformed
+        controller.setFont(Controller.FONTNAME.ARIAL);
+    }//GEN-LAST:event_mnArialActionPerformed
+
+    private void mnDialogActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnDialogActionPerformed
+        controller.setFont(Controller.FONTNAME.DIALOG);
+    }//GEN-LAST:event_mnDialogActionPerformed
+
+    private void mnHelveticaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnHelveticaActionPerformed
+        controller.setFont(Controller.FONTNAME.HELVETICA);
+    }//GEN-LAST:event_mnHelveticaActionPerformed
+
+    private void mnMSGothicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnMSGothicActionPerformed
+        controller.setFont(Controller.FONTNAME.MGOTHIC);
+    }//GEN-LAST:event_mnMSGothicActionPerformed
+
+    private void mnTimesRomanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnTimesRomanActionPerformed
+        controller.setFont(Controller.FONTNAME.TIMES);
+    }//GEN-LAST:event_mnTimesRomanActionPerformed
+
+    private void mnS12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnS12ActionPerformed
+        controller.generateFont(12);
+    }//GEN-LAST:event_mnS12ActionPerformed
+
+    private void mnS16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnS16ActionPerformed
+        controller.generateFont(16);
+    }//GEN-LAST:event_mnS16ActionPerformed
+
+    private void mnS20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnS20ActionPerformed
+        controller.generateFont(20);
+    }//GEN-LAST:event_mnS20ActionPerformed
+
+    private void mnS24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnS24ActionPerformed
+        controller.generateFont(24);
+    }//GEN-LAST:event_mnS24ActionPerformed
+
+    private void mnS28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnS28ActionPerformed
+        controller.generateFont(26);
+    }//GEN-LAST:event_mnS28ActionPerformed
+
+    private void mnWhiteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnWhiteActionPerformed
+        controller.setColor(Controller.COLORNAME.WHITE);
+    }//GEN-LAST:event_mnWhiteActionPerformed
+
+    private void mnBlackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnBlackActionPerformed
+        controller.setColor(Controller.COLORNAME.BLACK);
+    }//GEN-LAST:event_mnBlackActionPerformed
+
+    private void mnBlueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnBlueActionPerformed
+        controller.setColor(Controller.COLORNAME.BLUE);
+    }//GEN-LAST:event_mnBlueActionPerformed
+
+    private void mnRedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnRedActionPerformed
+        controller.setColor(Controller.COLORNAME.RED);
+    }//GEN-LAST:event_mnRedActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -323,7 +478,6 @@ public class NotebookUI extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuItem mnArial;
     private javax.swing.JMenuItem mnBlack;
@@ -351,6 +505,7 @@ public class NotebookUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnTimesRoman;
     private javax.swing.JMenuItem mnUndo;
     private javax.swing.JMenuItem mnWhite;
+    private javax.swing.JMenuItem mnWordWrap;
     private javax.swing.JTextArea tArea;
     // End of variables declaration//GEN-END:variables
 
@@ -377,5 +532,27 @@ public class NotebookUI extends javax.swing.JFrame {
     
     public String olvas(){
         return tArea.getText();
+    }
+    
+    public void wordWrapOn(){
+        tArea.setLineWrap(true);
+        tArea.setWrapStyleWord(true);
+        mnWordWrap.setText("Word Wrap: On");
+    }
+    
+    public void wordWrapOff(){
+        tArea.setLineWrap(false);
+        tArea.setWrapStyleWord(false);
+        mnWordWrap.setText("Word Wrap: Off");
+    }
+    
+    public void setFont_(Font font){
+        tArea.setFont(font);
+    }
+    
+    public void setColor(Color color, Color fColor){
+        this.getContentPane().setBackground(color);
+        tArea.setBackground(color);
+        tArea.setForeground(fColor);
     }
 }

@@ -2,7 +2,9 @@
 
 package control;
 
+import java.awt.Color;
 import java.awt.FileDialog;
+import java.awt.Font;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,9 +28,15 @@ public class Controller {
 
     private String fileName;
     private String fileDir;
-    private String[] charsetTested = {"UTF-8", "windows-1250" ,"IBM852"};
-    private List<String> charsetTested1 = new ArrayList<>();
-    private NotebookUI notebookUI;
+    private final String[] charsetTested = {"UTF-8", "windows-1250" ,"IBM852"};
+    private final List<String> charsetTested1 = new ArrayList<>();
+    private final NotebookUI notebookUI;
+    private boolean wordWrapON = false;
+    public enum COLORNAME {WHITE,BLACK, BLUE, RED};
+    public enum FONTNAME  {ARIAL, COMIC, DIALOG, HELVETICA, MGOTHIC, TIMES};
+    private Font arial, comicSansMs, dialog, helvetica, 
+                 msGothic, timesNewRoman;
+    private FONTNAME selectedFont = FONTNAME.ARIAL;
 
     public Controller(NotebookUI notebookUI) {
         this.notebookUI = notebookUI;
@@ -135,6 +143,44 @@ public class Controller {
     
     // Format menü metódusai 
     public void wrapFormat(){
+        if (!wordWrapON) {
+            wordWrapON = true;
+            notebookUI.wordWrapOn();
+        }else {
+            wordWrapON = false;
+            notebookUI.wordWrapOff();
+        }
+    }
+    
+    public void generateFont(int fontSize){
+        arial = new Font("Arial", Font.PLAIN, fontSize);
+        comicSansMs = new Font("Comic Sans MS", Font.PLAIN, fontSize);
+        dialog = new Font("Dialog", Font.PLAIN, fontSize);
+        helvetica = new Font("Helvetica", Font.PLAIN, fontSize);
+        msGothic = new Font("MS Gothic", Font.PLAIN, fontSize);
+        timesNewRoman = new Font("Times New Roman", Font.PLAIN, fontSize);
+        setFont(selectedFont);
+    }
+    
+    public void setFont(FONTNAME name){
+        selectedFont = name;
+        switch (name) {
+            case ARIAL: notebookUI.setFont_(arial); break;
+            case COMIC: notebookUI.setFont_(comicSansMs); break;
+            case DIALOG: notebookUI.setFont_(dialog); break;
+            case HELVETICA: notebookUI.setFont_(helvetica); break;
+            case MGOTHIC: notebookUI.setFont_(msGothic); break;
+            case TIMES: notebookUI.setFont_(timesNewRoman); break;
+        }
+    }
+    
+    public void setColor(COLORNAME colorName){
+        switch (colorName) {
+            case WHITE: notebookUI.setColor(Color.WHITE,Color.BLACK); break;
+            case BLACK: notebookUI.setColor(Color.BLACK,Color.WHITE); break;
+            case BLUE: notebookUI.setColor(Color.BLUE,Color.WHITE); break;
+            case RED: notebookUI.setColor(Color.RED,Color.WHITE); break;
+        }
         
     }
     
