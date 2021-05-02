@@ -21,6 +21,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.undo.UndoManager;
 import view.NotebookUI;
 
 
@@ -37,7 +38,9 @@ public class Controller {
     private Font arial, comicSansMs, dialog, helvetica, 
                  msGothic, timesNewRoman;
     private FONTNAME selectedFont = FONTNAME.ARIAL;
-
+    
+    private UndoManager um ;
+    
     public Controller(NotebookUI notebookUI) {
         this.notebookUI = notebookUI;
     }
@@ -66,6 +69,8 @@ public class Controller {
                     while (sc.hasNextLine()) {
                         notebookUI.sortIr(sc.nextLine());
                     }
+                    um.discardAllEdits();
+                    notebookUI.undoRedoUpdate();
                 } else {
                     JOptionPane.showMessageDialog(notebookUI, "A fájlt nem lehet megnyitni");
                 }
@@ -120,23 +125,29 @@ public class Controller {
 //<editor-fold defaultstate="collapsed" desc="Edit menü metódusai">   
  // Edit menü metódusai   
     public void undoEdit(){
-        
+        if (um.canUndo()) {
+            um.undo();   
+        }
+        notebookUI.undoRedoUpdate();
     }
     
     public void redoEdit(){
-        
+        if (um.canRedo()) {
+            um.redo();
+        }
+        notebookUI.undoRedoUpdate();
     }
     
     public void cutEdit(){
-        
+        notebookUI.cut();
     }
     
     public void copyEdit(){
-        
+        notebookUI.copy();
     }
     
     public void pasteEdit(){
-        
+        notebookUI.paste();
     }
     //</editor-fold> 
     
@@ -230,5 +241,9 @@ public class Controller {
             return false;
         }
         return true;
+    }
+
+    public void setUm(UndoManager um) {
+        this.um = um;
     }
 }

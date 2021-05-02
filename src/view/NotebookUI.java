@@ -4,6 +4,12 @@ package view;
 import control.Controller;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
+import javax.swing.undo.UndoManager;
+import listeners.UMListener;
+
+
 
 
 public class NotebookUI extends javax.swing.JFrame {
@@ -12,7 +18,9 @@ public class NotebookUI extends javax.swing.JFrame {
     private static final int HEIGHT_ = 600;
     private final String TITLE = "NoteBook";
     boolean elsosor;
-    Controller controller;
+    private Controller controller;
+    private UndoManager um ;
+    private boolean docChanged;
     
     public NotebookUI() {
         initComponents();
@@ -77,6 +85,7 @@ public class NotebookUI extends javax.swing.JFrame {
         jMenu1.setText("File");
         jMenu1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
+        mnNew.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnNew.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnNew.setText("New");
         mnNew.addActionListener(new java.awt.event.ActionListener() {
@@ -86,6 +95,7 @@ public class NotebookUI extends javax.swing.JFrame {
         });
         jMenu1.add(mnNew);
 
+        mnOpen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnOpen.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnOpen.setText("Open");
         mnOpen.addActionListener(new java.awt.event.ActionListener() {
@@ -95,6 +105,7 @@ public class NotebookUI extends javax.swing.JFrame {
         });
         jMenu1.add(mnOpen);
 
+        mnSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnSave.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnSave.setText("Save");
         mnSave.addActionListener(new java.awt.event.ActionListener() {
@@ -104,6 +115,7 @@ public class NotebookUI extends javax.swing.JFrame {
         });
         jMenu1.add(mnSave);
 
+        mnSave_as.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnSave_as.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnSave_as.setText("Save as");
         mnSave_as.addActionListener(new java.awt.event.ActionListener() {
@@ -113,6 +125,7 @@ public class NotebookUI extends javax.swing.JFrame {
         });
         jMenu1.add(mnSave_as);
 
+        mnExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_DOWN_MASK));
         mnExit.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnExit.setText("Exit");
         mnExit.addActionListener(new java.awt.event.ActionListener() {
@@ -129,20 +142,43 @@ public class NotebookUI extends javax.swing.JFrame {
 
         mnUndo.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnUndo.setText("Undo");
+        mnUndo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnUndoActionPerformed(evt);
+            }
+        });
         jMenu2.add(mnUndo);
 
         mnRedo.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnRedo.setText("Redo");
+        mnRedo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnRedoActionPerformed(evt);
+            }
+        });
         jMenu2.add(mnRedo);
 
+        mnCut.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnCut.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnCut.setText("Cut");
+        mnCut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnCutActionPerformed(evt);
+            }
+        });
         jMenu2.add(mnCut);
 
+        mnCopy.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnCopy.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnCopy.setText("Copy");
+        mnCopy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnCopyActionPerformed(evt);
+            }
+        });
         jMenu2.add(mnCopy);
 
+        mnPaste.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnPaste.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnPaste.setText("Paste");
         mnPaste.addActionListener(new java.awt.event.ActionListener() {
@@ -349,7 +385,7 @@ public class NotebookUI extends javax.swing.JFrame {
     }//GEN-LAST:event_mnOpenActionPerformed
 
     private void mnPasteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnPasteActionPerformed
-        // TODO add your handling code here:
+        controller.pasteEdit();
     }//GEN-LAST:event_mnPasteActionPerformed
 
     private void mnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnNewActionPerformed
@@ -438,6 +474,22 @@ public class NotebookUI extends javax.swing.JFrame {
         controller.setColor(Controller.COLORNAME.RED);
     }//GEN-LAST:event_mnRedActionPerformed
 
+    private void mnCutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnCutActionPerformed
+        controller.cutEdit();
+    }//GEN-LAST:event_mnCutActionPerformed
+
+    private void mnUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnUndoActionPerformed
+        controller.undoEdit();
+    }//GEN-LAST:event_mnUndoActionPerformed
+
+    private void mnRedoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnRedoActionPerformed
+        controller.redoEdit();
+    }//GEN-LAST:event_mnRedoActionPerformed
+
+    private void mnCopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnCopyActionPerformed
+        controller.copyEdit();
+    }//GEN-LAST:event_mnCopyActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -512,6 +564,14 @@ public class NotebookUI extends javax.swing.JFrame {
     private void start(){
         setVisible(true);
         controller = new Controller(this);
+        um = new UndoManager();
+        controller.generateFont(16);
+        controller.setUm(um);
+        UMListener uml = new UMListener();
+        uml.setNotebookUI(this);
+        uml.setUm(um);
+        tArea.getDocument().addUndoableEditListener(uml);
+        undoRedoUpdate();
     }
     
     public void del(){
@@ -555,4 +615,28 @@ public class NotebookUI extends javax.swing.JFrame {
         tArea.setBackground(color);
         tArea.setForeground(fColor);
     }
+    
+    public void cut(){
+        tArea.cut();
+    }
+    
+    public void copy(){
+        tArea.copy();
+    }
+    
+    public void paste(){
+        tArea.paste();
+    }
+    
+    public void undoRedoUpdate(){
+        //System.out.println(um.canRedo() + "  " + um.canUndo());
+        mnUndo.setEnabled(um.canUndo());
+        mnRedo.setEnabled(um.canRedo());
+    }
+
+    public void setDocChanged(boolean docChanged) {
+        this.docChanged = docChanged;
+    }
+    
+  
 }
