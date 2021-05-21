@@ -3,10 +3,27 @@ package view;
 
 import control.Controller;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
+import java.awt.GridLayout;
+import java.awt.Point;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.Popup;
+import javax.swing.PopupFactory;
+import javax.swing.border.Border;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Document;
+import javax.swing.text.Highlighter;
+import javax.swing.text.JTextComponent;
 import javax.swing.undo.UndoManager;
+import listeners.MyDocumentListener;
+import listeners.PopupActions;
 import listeners.UMListener;
 
 
@@ -21,6 +38,13 @@ public class NotebookUI extends javax.swing.JFrame {
     private Controller controller;
     private UndoManager um ;
     private boolean docChanged;
+    private Popup pop;
+    private PopupFactory pf;
+    private JPanel panel;
+    private JTextField szoveg;
+    private PopupActions popActions;
+    private DefaultHighlighter.HighlightPainter highlighterP = new myHighliter(Color.green);
+    private String[] keresGombokFelireta = {"Keresés", "Mégse"};
     
     public NotebookUI() {
         initComponents();
@@ -31,8 +55,35 @@ public class NotebookUI extends javax.swing.JFrame {
         this.setSize(WIDTH_, HEIGHT_);
         this.setTitle(TITLE);
         this.setLocationRelativeTo(null);
+        
     }
 
+    private void createPopup(){
+        
+        JLabel label = new JLabel("Keresendő szöveg");
+        panel = new JPanel();
+        panel.setBorder(BorderFactory.createLineBorder(Color.red, 2, true));
+        panel.setBackground(Color.GREEN);
+        panel.setPreferredSize(new Dimension(160,100));
+        Font font = new Font("BOLD",1 , 14);
+        JButton button = new JButton(keresGombokFelireta[0]);
+        JButton button1 = new JButton(keresGombokFelireta[1]);
+        button.addActionListener(popActions);
+        button1.addActionListener(popActions);
+        szoveg = new JTextField();
+        szoveg.setFont(font);
+        szoveg.setPreferredSize(new Dimension(100, 30));
+        
+        panel.add(label);
+        panel.add(szoveg);
+        panel.add(button);
+        panel.add(button1);
+        panel.setLayout(new FlowLayout());
+        
+        
+        
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -73,9 +124,16 @@ public class NotebookUI extends javax.swing.JFrame {
         mnBlack = new javax.swing.JMenuItem();
         mnBlue = new javax.swing.JMenuItem();
         mnRed = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
+        tArea.setEditable(false);
         tArea.setColumns(20);
         tArea.setRows(5);
         jScrollPane1.setViewportView(tArea);
@@ -140,6 +198,7 @@ public class NotebookUI extends javax.swing.JFrame {
         jMenu2.setText("Edit");
         jMenu2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
 
+        mnUndo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnUndo.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnUndo.setText("Undo");
         mnUndo.addActionListener(new java.awt.event.ActionListener() {
@@ -149,6 +208,7 @@ public class NotebookUI extends javax.swing.JFrame {
         });
         jMenu2.add(mnUndo);
 
+        mnRedo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         mnRedo.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         mnRedo.setText("Redo");
         mnRedo.addActionListener(new java.awt.event.ActionListener() {
@@ -363,6 +423,15 @@ public class NotebookUI extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu6);
 
+        jMenu3.setText("Search");
+        jMenu3.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jMenu3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jMenu3MousePressed(evt);
+            }
+        });
+        jMenuBar1.add(jMenu3);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -381,6 +450,7 @@ public class NotebookUI extends javax.swing.JFrame {
 
     private void mnOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnOpenActionPerformed
         elsosor = true;
+        tArea.setEditable(true);
         controller.openFile();
     }//GEN-LAST:event_mnOpenActionPerformed
 
@@ -391,6 +461,7 @@ public class NotebookUI extends javax.swing.JFrame {
     private void mnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnNewActionPerformed
         this.del();
         this.setTitle("New");
+        tArea.setEditable(true);
         controller.newFile();
     }//GEN-LAST:event_mnNewActionPerformed
 
@@ -455,6 +526,7 @@ public class NotebookUI extends javax.swing.JFrame {
     }//GEN-LAST:event_mnS24ActionPerformed
 
     private void mnS28ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnS28ActionPerformed
+        System.out.println("tfvbjkl");
         controller.generateFont(26);
     }//GEN-LAST:event_mnS28ActionPerformed
 
@@ -490,6 +562,22 @@ public class NotebookUI extends javax.swing.JFrame {
         controller.copyEdit();
     }//GEN-LAST:event_mnCopyActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        
+        controller.exitFile();
+    }//GEN-LAST:event_formWindowClosing
+
+    private void jMenu3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MousePressed
+        Point pont = this.getLocationOnScreen();
+        pop = pf.getPopup(this, panel, pont.x + 300, pont.y + 100);
+        pop.show();
+       
+       szoveg.requestFocus();
+     //   String txt = JOptionPane.showInputDialog(this, "Mit keresel", "Keresés", JOptionPane.QUESTION_MESSAGE);
+      //  System.out.println(txt + "hh");
+    }//GEN-LAST:event_jMenu3MousePressed
+//String txt = JOptionPane.showInputDialog(this, "Mit keresel", "Keresés", JOptionPane.QUESTION_MESSAGE);
+      //  System.out.println(txt + "hh");
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -525,6 +613,7 @@ public class NotebookUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
@@ -568,12 +657,29 @@ public class NotebookUI extends javax.swing.JFrame {
         controller.generateFont(16);
         controller.setUm(um);
         UMListener uml = new UMListener();
+        MyDocumentListener docL = new MyDocumentListener();
         uml.setNotebookUI(this);
         uml.setUm(um);
+        docL.setNotebookUI(this);
+        popActions = new PopupActions();
+        popActions.setNotebookUI(this);
         tArea.getDocument().addUndoableEditListener(uml);
+        tArea.getDocument().addDocumentListener(docL);
+        mnSave.setEnabled(false);
         undoRedoUpdate();
+        pf = new PopupFactory();
+        createPopup();
     }
-    
+    public void keres (String txt){
+        pop.hide();
+        pop = null;
+        if (txt.equals(keresGombokFelireta[0])) {
+            if (szoveg.getText() != null) {
+                System.out.println("t " + szoveg.getText());
+                searchInTextArea(tArea, szoveg.getText());
+            }
+        }
+    }
     public void del(){
         this.tArea.setText("");
     }
@@ -634,9 +740,49 @@ public class NotebookUI extends javax.swing.JFrame {
         mnRedo.setEnabled(um.canRedo());
     }
 
-    public void setDocChanged(boolean docChanged) {
-        this.docChanged = docChanged;
+    private void removeHighlight(JTextComponent txtComp){
+        Highlighter removeHighligter = txtComp.getHighlighter();
+        Highlighter.Highlight[] remove = removeHighligter.getHighlights();
+        for (int i = 0; i < remove.length; i++) {
+            if (remove[i].getPainter() instanceof myHighliter) {
+                removeHighligter.removeHighlight(remove[i]);
+            }
+            //Highlighter.Highlight highlight = remove[i];
+            
+        }
     }
     
-  
+    private void searchInTextArea(JTextComponent txtComp, String txtStr){
+        removeHighlight(txtComp);
+        try {
+            Highlighter highlighter = txtComp.getHighlighter();
+            Document doc = txtComp.getDocument();
+            String txt = doc.getText(0, doc.getLength());
+            int pos = 0;
+            while ((pos = txt.toUpperCase().indexOf(txtStr.toUpperCase(), pos)) >= 0 ) {
+                highlighter.addHighlight(pos, pos + txtStr.length(), highlighterP);
+                pos += txtStr.length();
+            }
+        } catch (Exception e) {
+        }
+    }
+    
+    public void setDocChanged(boolean docChanged) {
+        if (!this.docChanged && docChanged) {
+            this.setTitle(this.getTitle() + "  Megváltozott!");
+        }
+        mnSave.setEnabled(true);
+        this.docChanged = docChanged;
+    }
+
+    public boolean isDocChanged() {
+        return docChanged;
+    }
+    
+  class myHighliter extends DefaultHighlighter.DefaultHighlightPainter{
+      
+        public myHighliter(Color c) {
+            super(c);
+        } 
+  }
 }

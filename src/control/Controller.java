@@ -18,8 +18,6 @@ import java.nio.charset.CharsetDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.undo.UndoManager;
 import view.NotebookUI;
@@ -60,7 +58,7 @@ public class Controller {
             if (fd.getFile() != null) {
                 fileName = fd.getFile();
                 fileDir = fd.getDirectory();
-                notebookUI.cimkeIr(fileName);
+                
                 File file = new File(fileDir + fileName);
                 Charset charset = detectCharset(file, charsetTested);
                 if (charset != null) {
@@ -68,9 +66,12 @@ public class Controller {
                     Scanner sc = new Scanner(file, charset);
                     while (sc.hasNextLine()) {
                         notebookUI.sortIr(sc.nextLine());
+                        System.out.println("sort ir");
                     }
                     um.discardAllEdits();
                     notebookUI.undoRedoUpdate();
+                    notebookUI.cimkeIr(fileName);
+                    notebookUI.setDocChanged(false);
                 } else {
                     JOptionPane.showMessageDialog(notebookUI, "A fájlt nem lehet megnyitni");
                 }
@@ -90,6 +91,8 @@ public class Controller {
             try {
                 pw = new PrintWriter(fileDir + fileName);
                 pw.write(notebookUI.olvas());
+                notebookUI.cimkeIr(fileName);
+                notebookUI.setDocChanged(false);
                 pw.close();
             } catch (FileNotFoundException ex) {
                 System.out.println("A fálj írása során hibe lépet fel!");
@@ -118,7 +121,26 @@ public class Controller {
     }
     
     public void exitFile(){
-        System.exit(0);
+        int a;
+        if (notebookUI.isDocChanged()) {
+            if (fileName == null) {
+                a = JOptionPane.showConfirmDialog(notebookUI,
+                     "Mented a file-t", "Mentés"
+                    , JOptionPane.YES_NO_CANCEL_OPTION);
+            } else {
+                a = JOptionPane.showConfirmDialog(notebookUI,
+                     "Mented a " + fileName + "file-t", "Mentés"
+                    , JOptionPane.YES_NO_CANCEL_OPTION);
+            }
+            if (a == 0) {
+                saveFile();
+            }else if (a == 1) {
+                System.exit(0);
+            }
+        } else {
+            System.exit(0);
+        }
+        
     }
 //</editor-fold> 
     

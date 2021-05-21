@@ -15,11 +15,13 @@ public class MyDocumentListener implements DocumentListener{
     @Override
     public void insertUpdate(DocumentEvent e) {
         notebookUI.setDocChanged(true);
+        System.out.println("insert");
     }
 
     @Override
     public void removeUpdate(DocumentEvent e) {
         notebookUI.setDocChanged(true);
+        //System.out.println("remove");
     }
 
     @Override
